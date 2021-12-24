@@ -16,21 +16,27 @@ class AnimaisTestCase(LiveServerTestCase):
         # Vini deseja encontrar um novo animal para adotar.
 
 
-        # Ele encontra o “Busca Animal” e decide usar o site,
+        # Ele encontra o “Busca Animal” e decide pesquisar no site,
         home_page = self.browser.get(self.live_server_url + '/')
 
         # porque vê no menu do site escrito “Busca Animal”.
-        #sugestão do pycharm: brand_element = self.browser.find_elements_by('.navbar')
-        brand_element = self.browser.find_elements_by_css_selector('.navbar')
+        # noinspection PyDeprecation
+        brand_element = self.browser.find_element_by_css_selector('.navbar')
         self.assertEqual('Busca Animal', brand_element.text)
 
         # Ele vê um campo para pesquisar animais pelo nome, então vai digitar ali, em algum lugar vai ter um campo onde ele vai digitar o nome do animal que vai exibir
-
+        # noinspection PyDeprecation
+        buscar_animal_input = self.browser.find_element_by_css_selector('input#buscar-animal')
+        self.assertEqual(buscar_animal_input.get_attribute('placeholder'), 'Exemplo : Leão, Urso...')
 
         # Ele digita, ele pesquisar, leão, e clica no botão pesquisar.
+        buscar_animal_input.send_keys('leão')
+        self.browser.find_element_by_css_selector('form button').click()
 
+        # O site exibe 4 caracteristicas do animal pesquisado
+        caracteristicas = self.browser.find_elements_by_css_selector('.result-description')
+        self.assertGreater(len(caracteristicas), 3)
 
         # Ele desiste de adotar um leão
 
-        pass
 
