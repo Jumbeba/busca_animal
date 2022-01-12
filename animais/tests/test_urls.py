@@ -2,7 +2,6 @@ from django.test import TestCase, RequestFactory
 from django.urls import reverse
 from animais.views import index
 
-
 class AnimaisURLSTestCase(TestCase):
 
     def setUp(self):
